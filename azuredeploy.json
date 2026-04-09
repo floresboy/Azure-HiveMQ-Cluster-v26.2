@@ -4,10 +4,8 @@
   "parameters": {
     "adminUsername": {
       "type": "string",
-      "defaultValue": "",
-      "minLength": 1,
       "metadata": {
-        "description": "User XXXXX. name for the Virtual Machine"
+        "description": "Admin username for the Virtual Machines"
       }
     },
     "authenticationType": {
@@ -23,9 +21,8 @@
     },
     "adminPasswordOrSSHKey": {
       "type": "securestring",
-      "defaultValue": "",
       "metadata": {
-        "description": "Password XX or SSH key for the Virtual Machine"
+        "description": "Password or SSH key for the Virtual Machine"
       }
     },
     "vmSize": {
@@ -54,6 +51,13 @@
       "defaultValue": 2,
       "metadata": {
         "description": "Number of VMs to deploy"
+      }
+    },
+    "deployPublicIPs": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "If true, each node will receive its own individual Public IP address. If false, nodes remain private behind the Load Balancer."
       }
     }
   },
@@ -115,6 +119,7 @@
       ]
     },
     {
+      "condition": "[parameters('deployPublicIPs')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "apiVersion": "2020-05-01",
       "name": "[concat(variables('vmName'), copyIndex(),'-public-ip')]",
@@ -167,18 +172,16 @@
         "count": "[parameters('numberOfInstances')]"
       },
       "dependsOn": [
-        "publicIpLoop",
         "[variables('virtualNetworkName')]",
-        "[variables('loadBalancersName')]"
+        "[variables('loadBalancersName')]",
+        "publicIpLoop"
       ],
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipconfig1",
             "properties": {
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('vmName'), copyIndex(),'-public-ip'))]"
-              },
+              "publicIPAddress": "[if(parameters('deployPublicIPs'), json(concat('{\"id\": \"', resourceId('Microsoft.Network/publicIPAddresses', concat(variables('vmName'), copyIndex(), '-public-ip')), '\"}')), json('null'))]",
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
