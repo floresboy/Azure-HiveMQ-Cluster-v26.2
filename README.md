@@ -17,7 +17,5 @@ The following resources will be deployed bis this template:
 - An Azure Load Balancer used to access the HiveMQ services
 - A Virtual Network in which the Virtual Machines and Load Balancer are placed
 - Network Interfaces with Public IP-Addresses for the Virtual Machines
-- A Network Interface with a Public IP-Address for the Load Balancer
+- A Network Interface with a (user selectable-)Public IP-Address for the Load Balancer
 
-
-https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffloresboy%2FAzure-HiveMQ-Cluster-v26.2%2Frefs%2Fheads%2Fmain%2Fazuredeploy.json
