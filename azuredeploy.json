@@ -139,7 +139,7 @@
       "name": "[variables('bastionHostName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[variables('virtualNetworkNetworkName')]",
+        "[variables('virtualNetworkName')]",
         "[variables('bastionPublicIpName')]"
       ],
       "properties": {
