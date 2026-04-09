@@ -35,7 +35,12 @@
     "deployPublicIPs": {
       "type": "bool",
       "defaultValue": false,
-      "metadata": { "description": "Direct Public IP for nodes? (Optional if using Bastion)" }
+      "metadata": { "description": "Individual Public IPs for each VM node?" }
+    },
+    "deployBastion": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": { "description": "Deploy Azure Bastion for secure management access?" }
     }
   },
   "variables": {
@@ -109,6 +114,7 @@
       "properties": { "publicIPAllocationMethod": "Dynamic" }
     },
     {
+      "condition": "[parameters('deployBastion')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "apiVersion": "2020-05-01",
       "name": "[variables('bastionPublicIpName')]",
@@ -123,25 +129,17 @@
       "location": "[resourceGroup().location]",
       "properties": {
         "addressSpace": { "addressPrefixes": [ "[variables('addressPrefix')]" ] },
-        "subnets": [
-          {
-            "name": "[variables('subnetName')]",
-            "properties": { "addressPrefix": "[variables('subnetPrefix')]" }
-          },
-          {
-            "name": "[variables('bastionSubnetName')]",
-            "properties": { "addressPrefix": "[variables('bastionSubnetPrefix')]" }
-          }
-        ]
+        "subnets": "[union(array(json(concat('{\"name\":\"', variables('subnetName'), '\",\"properties\":{\"addressPrefix\":\"', variables('subnetPrefix'), '\"}}'))), if(parameters('deployBastion'), array(json(concat('{\"name\":\"', variables('bastionSubnetName'), '\",\"properties\":{\"addressPrefix\":\"', variables('bastionSubnetPrefix'), '\"}}'))), array()))]"
       }
     },
     {
+      "condition": "[parameters('deployBastion')]",
       "type": "Microsoft.Network/bastionHosts",
       "apiVersion": "2020-05-01",
       "name": "[variables('bastionHostName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[variables('virtualNetworkName')]",
+        "[variables('virtualNetworkNetworkName')]",
         "[variables('bastionPublicIpName')]"
       ],
       "properties": {
