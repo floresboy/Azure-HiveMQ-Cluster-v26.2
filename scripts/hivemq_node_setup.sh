@@ -41,6 +41,7 @@ fi
 
 wait_for_apt_lock
 sudo apt-get update -y
+sudo apt-get -y install unzip
 sudo apt-get install -y openjdk-21-jdk
 sudo apt-get -y install unzip
 
