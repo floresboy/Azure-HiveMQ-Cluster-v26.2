@@ -1,10 +1,10 @@
 # HiveMQ Virtual Machine Cluster
 
-vKS-26.1
+vKS-26.2
 This template deploys an n-Node HiveMQ cluster to Azure.
 
 
-[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffloresboy%2FAzure-HiveMQ-Cluster-v26.1%2Frefs%2Fheads%2Fmain%2Fazuredeploy.json)
+[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ffloresboy%2FAzure-HiveMQ-Cluster-v26.2%2Frefs%2Fheads%2Fmain%2Fazuredeploy.json)
 
 
 

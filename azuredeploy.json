@@ -87,7 +87,7 @@
     },
     "storageAccountName": "[toLower(uniqueString(resourceGroup().id) )]",
     "containerName": "[concat('hivemq-cluster-container-', uniqueString( resourceGroup().id, deployment().name ))]",
-    "setupScriptLink": "https://raw.githubusercontent.com/floresboy/Azure-HiveMQ-Cluster-v26.1/refs/heads/main/scripts/hivemq_node_setup.sh"
+    "setupScriptLink": "https://raw.githubusercontent.com/floresboy/Azure-HiveMQ-Cluster-v26.2/refs/heads/main/scripts/hivemq_node_setup.sh"
   },
   "resources": [
     {
